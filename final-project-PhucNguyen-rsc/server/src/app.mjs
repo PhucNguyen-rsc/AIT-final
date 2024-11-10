@@ -8,6 +8,7 @@ import session from 'express-session';
 import path from 'path';
 import url from 'url';
 import * as auth from './auth.mjs';
+import cors from 'cors';
 
 const app = express();
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
@@ -21,6 +22,7 @@ secret: 'secret',
 resave: false,
 saveUninitialized: true,
 }));
+app.use(cors());
 
 const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
 const registrationMessages = {"USERNAME ALREADY EXISTS": "Username already exists", "USERNAME PASSWORD TOO SHORT": "Username or password is too short"};
@@ -69,5 +71,18 @@ try {
 app.get("/courses", (req, res)=>{
     res.send("Courses here!")
 })
+
+const items = [{
+    name: "A",
+    price: 1
+},
+{
+    name: "B",
+    price: 2
+}]
+
+app.get("/api/items", (req, res) =>{
+    res.send(items);
+}) 
 
 app.listen(process.env.PORT || 3000);
