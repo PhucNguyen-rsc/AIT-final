@@ -18,7 +18,7 @@ server/src/app.mjs (login/register form)
 
 URL for form result
 ---
-![Form result](server\documentation\form_log_in.png)
+![Form result](server/documentation/form_log_in.png)
 
 URL to github that shows line of code where research topic(s) are used / implemented
 --- 
