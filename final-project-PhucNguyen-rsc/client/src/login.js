@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './Login.css'
+import './Login.css';
+import {REACT_APP_API_URL, BACKEND_URL} from './config.mjs';
 
 const LoginForm = () => {
-  // const location = useLocation();
-  let message = null;
-  // let { message } = location.state || null;
+  console.log("backend url: ", BACKEND_URL);
+  const location = useLocation();
+  let [message, setMessage] = useState(null);
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message);
+    }
+  }, [location]);
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -33,8 +40,7 @@ const LoginForm = () => {
       }
       else {
         navigate('/', { state: { message: data.errMessage}});
-        message = data.errMessage;
-
+        // message = data.errMessage;
       }
   };
 
@@ -70,23 +76,29 @@ const LoginForm = () => {
 };
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
-  let message = null;
-  // const location = useLocation();
-  // let { message } = location.state || null;
+  const location = useLocation();
+  let [message, setMessage] = useState(null);
 
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message);
+    }
+  }, [location]);
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
+    email: '',
     password: '',
   });
   
   const handleChange = (e) => {
-    setFormData({ ...formData});
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   
   const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log("LOL")
+      console.log("FormDATA")
       const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {
@@ -94,39 +106,57 @@ const RegisterForm = () => {
         },
         body: JSON.stringify(formData),
       });
-      
+
       const data = await response.json();
-      console.log("DATA", data);
 
       if (!data.errMessage) { //successful
-        console.log("HERE");
         navigate('/courses', { state: { name: data.username, courses: data.courses}});
       }
       else {
-        message = data.errMessage;
+        navigate('/register', { state: { message: data.errMessage}});
+        // message = data.errMessage;
       }
   };
-    return (
-      <form onSubmit={handleSubmit}>
-        {message ? <div className="error">{message}</div> : null}
-        <h1>Register</h1>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input type="text" id="email" name="email" />
-        </div>
-        <div>
-          <input type="submit" value="Register" />
-        </div>
-      </form>
-    );
-}
+
+  return (  
+    <form onSubmit={handleSubmit}>
+      {message ? <div className="error">{message}</div> : null}
+      <h1>Register</h1>
+      <div>
+        <label htmlFor="username">Username:</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          value={formData.name}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input 
+          type="text" 
+          id="email" 
+          name="email" 
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <input type="submit" value="Register" />
+      </div>
+    </form>
+  );
+};
 
 export {LoginForm, RegisterForm};

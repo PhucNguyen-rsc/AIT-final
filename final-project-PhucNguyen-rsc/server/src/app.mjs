@@ -13,15 +13,16 @@ import cors from 'cors';
 const app = express();
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-app.set('view engine', 'hbs');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 app.use(session({
 secret: 'secret',
 resave: false,
 saveUninitialized: true,
 }));
+
 app.use(cors());
 
 const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
@@ -39,7 +40,7 @@ try {
     res.json({name: req.body.username, courses: req.body.courses, errMessage: null}); //successful
 } catch(err) {
     console.log(err);
-    res.json({ errMessage: loginMessages[err.message] ?? 'Login unsuccessful'}); //unsuccessful
+    res.json({ errMessage: registrationMessages[err.message] ?? 'Register unsuccessful'}); //unsuccessful
 }
 });
 

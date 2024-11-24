@@ -8,6 +8,9 @@ const Layout = (user = null) =>{
                 <span className="home-link">
                     <a href="/register">Register</a>
                 </span>
+                <span className="login-status">
+                    <a href="/">Log In</a>
+                </span>
                 </nav>
             </header>
             
