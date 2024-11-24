@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css'
 
 const LoginForm = () => {
-  const location = useLocation();
-  let { message } = location.state || null;
+  // const location = useLocation();
+  let message = null;
+  // let { message } = location.state || null;
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -70,9 +71,10 @@ const LoginForm = () => {
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  let { message } = location.state || null;
-  
+  let message = null;
+  // const location = useLocation();
+  // let { message } = location.state || null;
+
   const [formData, setFormData] = useState({
     name: '',
     password: '',
