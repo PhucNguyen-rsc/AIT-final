@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css'
 
 const LoginForm = () => {
+  const location = useLocation();
+  let { message } = location.state || null;
+
   const navigate = useNavigate();
-  let message = null;
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -68,7 +70,9 @@ const LoginForm = () => {
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  let message = null;
+  const location = useLocation();
+  let { message } = location.state || null;
+  
   const [formData, setFormData] = useState({
     name: '',
     password: '',
