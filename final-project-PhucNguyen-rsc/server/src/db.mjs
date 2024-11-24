@@ -41,3 +41,5 @@ UserSchema.plugin(mongooseSlugPlugin, {tmpl: '<%=username%>'});
 
 mongoose.model('User', UserSchema);
 mongoose.model('CourseList', CourseListSchema);
+
+export default mongoose.models.UserSchema; mongoose.models.CourseListSchema
