@@ -5,7 +5,7 @@ const Layout = (user = null) =>{
         <>   
             <header>
                 <nav>
-                <span class="home-link">
+                <span className="home-link">
                     <a href="/register">Register</a>
                 </span>
                 </nav>
@@ -13,7 +13,7 @@ const Layout = (user = null) =>{
             
             <h1>Course Registering and Tracking</h1>
             
-            <div class="content" >
+            <div className="content" >
             A site to keeping track of courses. Intend to mimic Albert features.
             </div>
         </> 

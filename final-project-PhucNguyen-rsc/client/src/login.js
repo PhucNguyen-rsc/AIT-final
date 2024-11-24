@@ -15,7 +15,7 @@ const LoginForm = () => {
   };
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
+      e.preventDefault();
       const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
@@ -29,7 +29,9 @@ const LoginForm = () => {
         navigate('/courses', { state: { name: data.username, courses: data.courses}});
       }
       else {
+        navigate('/', { state: { message: data.errMessage}});
         message = data.errMessage;
+
       }
   };
 
@@ -77,7 +79,8 @@ const RegisterForm = () => {
   };
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
+      e.preventDefault();
+      console.log("LOL")
       const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {
@@ -87,8 +90,10 @@ const RegisterForm = () => {
       });
       
       const data = await response.json();
+      console.log("DATA", data);
 
       if (!data.errMessage) { //successful
+        console.log("HERE");
         navigate('/courses', { state: { name: data.username, courses: data.courses}});
       }
       else {
