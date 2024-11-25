@@ -26,7 +26,7 @@ const LoginForm = () => {
   
   const handleSubmit = async (e) => {
       e.preventDefault();
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch(BACKEND_URL + '/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
       e.preventDefault();
       console.log("FormDATA")
-      const response = await fetch('http://localhost:5000/register', {
+      const response = await fetch(BACKEND_URL + '/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
