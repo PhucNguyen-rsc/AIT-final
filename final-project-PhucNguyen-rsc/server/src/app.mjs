@@ -28,6 +28,9 @@ app.use(cors());
 const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
 const registrationMessages = {"USERNAME ALREADY EXISTS": "Username already exists", "USERNAME PASSWORD TOO SHORT": "Username or password is too short"};
 
+app.get("/", (req, res) => {
+    res.send("Hello from server!")
+})
 
 app.post('/register', async (req, res) => {
 try {
