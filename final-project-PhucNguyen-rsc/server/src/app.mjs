@@ -8,30 +8,29 @@ import session from 'express-session';
 import path from 'path';
 import url from 'url';
 import * as auth from './auth.mjs';
+import cors from 'cors';
 
 const app = express();
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-app.set('view engine', 'hbs');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 app.use(session({
 secret: 'secret',
 resave: false,
 saveUninitialized: true,
 }));
 
+app.use(cors());
+
 const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
 const registrationMessages = {"USERNAME ALREADY EXISTS": "Username already exists", "USERNAME PASSWORD TOO SHORT": "Username or password is too short"};
 
-app.get('/', (req, res) => {
-res.redirect('/login');
-});
-
-app.get('/register', (req, res) => {
-res.render('register');
-});
+app.get("/", (req, res) => {
+    res.send("Hello from server!")
+})
 
 app.post('/register', async (req, res) => {
 try {
@@ -41,15 +40,11 @@ try {
     req.body.password
     );
     await auth.startAuthenticatedSession(req, newUser);
-    res.redirect('/'); 
+    res.json({name: req.body.username, courses: req.body.courses, errMessage: null}); //successful
 } catch(err) {
     console.log(err);
-    res.render('register', {message: registrationMessages[err.message] ?? 'Registration error'}); 
+    res.json({ errMessage: registrationMessages[err.message] ?? 'Register unsuccessful'}); //unsuccessful
 }
-});
-        
-app.get('/login', (req, res) => {
-    res.render('login');
 });
 
 app.post('/login', async (req, res) => {
@@ -59,15 +54,11 @@ try {
     req.body.password
     );
     await auth.startAuthenticatedSession(req, user);
-    res.redirect('/courses'); 
+    res.json({ name: req.body.username, courses: req.body.courses, errMessage: null });
 } catch(err) {
     console.log("Error message:" , err);
-    res.render('login', {message: loginMessages[err.message] ?? 'Login unsuccessful'}); 
+    res.json({errMessage: loginMessages[err.message] ?? 'Login unsuccessful'});
 }
 });
 
-app.get("/courses", (req, res)=>{
-    res.send("Courses here!")
-})
-
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 5000);
