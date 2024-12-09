@@ -73,14 +73,14 @@ const ShowCourseForm = () => {
     <div className="course-container">
         <p>Hello {user} !</p>
         <p>Below are your courses this semester: </p>
-        <div className="course-stack">
+        <div className="max-h-[70vh] overflow-y-auto">
         {courses && courses.map((course, index) => (
         <div 
             key={index} 
             className="bg-orange-400 p-4 mb-2 rounded-lg shadow-sm hover:shadow-md transition-shadow"
         >
             <h3 className="text-xl font-semibold mb-2">{course.name}</h3>
-            <div className="text-gray-800">
+            <div className="text-gray-800 max-h-[70vh] overflow-y-auto">
             <p className="mb-1">Description: {course.description}</p>
             <p className="mb-1">Professor: {course.instructor}</p>
             <p className="mb-1">Course ID: {course.courseID}</p>
@@ -131,7 +131,7 @@ const ShowEditForm = () => {
         <>
         <h1 className="font-bold text-red-500">Add Courses</h1>
         <a onClick = {sendAddForm} className="text-blue-500 hover:text-blue-700 active:text-purple-400 visited:text-purple-400">Add more courses</a>
-        <div className="course-stack">
+        <div className="max-h-[70vh] overflow-y-auto">
         {courses && courses.map((course, index) => (
         <div 
             key={index} 
@@ -246,21 +246,23 @@ function Popup({ courses, onClose}) {
     if (courses.length === 0) return null;
   
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg p-8 max-w-md w-full m-4 relative">
-          <button 
-            onClick={onClose}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
-          <h2 className="text-xl font-bold mb-4">Courses</h2>
-          {courses.map((course) => (
-            <CourseDetails key={course.slug} course={course}/>
-          ))}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full m-4 relative">
+            <button 
+              onClick={onClose}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-bold mb-4">Courses</h2>
+            <div className="max-h-[70vh] overflow-y-auto">
+              {courses.map((course) => (
+                <CourseDetails key={course.slug} course={course}/>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 
 function ShowAddForm() {
