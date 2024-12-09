@@ -20,6 +20,7 @@ http://linserv1.cims.nyu.edu:33929
 URL for form 1 (from previous milestone) 
 ---
 Sign In / Registration Form
+![Form result](server/documentation/form_log_in.png)
 
 Special Instructions for Form 1
 ---
@@ -28,6 +29,7 @@ You have to register before hand. You can leave the email blank while registerin
 URL for form 2 (for current milestone)
 ---
 Search for course to add to user's course list
+![Form result](server/documentation/course_search.png)
 
 Special Instructions for Form 2
 ---
@@ -55,7 +57,7 @@ const schoolDictionary = {
 URL for form 3 (from previous milestone) 
 ---
 Add the new course to the list. 
-
+![Form result](server/documentation/course_add.png)
 
 Special Instructions for Form 3
 ---
@@ -68,19 +70,18 @@ College of Arts and Science --> select in the valid field
 
 First link to github line number(s) for constructor, HOF, etc.
 ---
-(TODO: add link to line number(s) here) 
+/client/Course.jsx line 107
 
 Second link to github line number(s) for constructor, HOF, etc.
 ---
-(TODO: add link to line number(s) here) 
+/client/Course.jsx line 392
 
 Short description for links above
----
-(TODO: describe what each link above is, one line each... for example: myFunction is a hof that retrieves json from a url, map is used to transform the Array of Person objects into an Array of strings that represents names)
+They are all hof functions to send request to URL in Backend API
 
 Link to github line number(s) for schemas (db.js or models folder)
 ---
-(TODO: add link to schemas)
+/server/src/db.mjs
 
 Description of research topics above with points
 ---
@@ -92,10 +93,6 @@ Applied Vercel
 Links to github line number(s) for research topics described above (one link per line)
 ---
 The whole /client folder is React + Tailwind css + Vite based
-
-Optional project notes 
---- 
-
 
 Attributions
 ---
