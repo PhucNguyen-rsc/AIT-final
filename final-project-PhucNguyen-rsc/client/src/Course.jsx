@@ -86,8 +86,9 @@ const ShowCourseForm = () => {
             <p className="mb-1">Course ID: {course.courseID}</p>
             <p>Credits: {course.credits}</p>
             </div>
+
         </div>
-))}
+        ))}
         </div>
         <a onClick = {sendEditForm} className="text-blue-500 hover:text-blue-700 active:text-purple-400 visited:text-purple-400" >Edit/ Add courses: </a>
     </div>);
@@ -97,6 +98,30 @@ const ShowEditForm = () => {
     // const location = useLocation();
     // const { name, courses } = location.state || {}; //state: { name: data.username, courses: data.courses} --> from ShowCourseForm
     const navigate = useNavigate();
+    const { user } = useContext(MyContext);
+    const [courses, setCourses] = useState(null);
+
+    useEffect(() => {
+        const fetchCourseData = async () => {
+          try {
+            const response = await fetch(BACKEND_URL + '/fetch_courses', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({user: user}),
+              });
+        
+            const data = await response.json();
+            setCourses(data.courses);
+          } 
+          catch (err) {
+            console.log(err);
+          }
+        };
+    
+        fetchCourseData();
+      }, []); 
 
     function sendAddForm(){
         navigate("/courses/edit/add")
@@ -104,17 +129,25 @@ const ShowEditForm = () => {
 
     return (
         <>
-        <h1 className="font-bold text-red-500">Add/Drop Courses</h1>
+        <h1 className="font-bold text-red-500">Add Courses</h1>
         <a onClick = {sendAddForm} className="text-blue-500 hover:text-blue-700 active:text-purple-400 visited:text-purple-400">Add more courses</a>
         <div className="course-stack">
-                {courses && courses.map((course, index) => (
-                    <div key={index} className="course-card">
-                        <h3>{course.name}</h3>
-                        <p>Professor: {course.professor}</p>
-                        <p>Credits: {course.credits}</p>
-                    </div>
-                ))}
-        </div>        
+        {courses && courses.map((course, index) => (
+        <div 
+            key={index} 
+            className="bg-orange-400 p-4 mb-2 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+        >
+            <h3 className="text-xl font-semibold mb-2">{course.name}</h3>
+            <div className="text-gray-800">
+            <p className="mb-1">Description: {course.description}</p>
+            <p className="mb-1">Professor: {course.instructor}</p>
+            <p className="mb-1">Course ID: {course.courseID}</p>
+            <p>Credits: {course.credits}</p>
+            </div>
+
+        </div>
+        ))}
+        </div>     
         </>
     )
 }

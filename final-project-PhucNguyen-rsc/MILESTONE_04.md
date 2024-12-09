@@ -84,12 +84,14 @@ Link to github line number(s) for schemas (db.js or models folder)
 
 Description of research topics above with points
 ---
-Applied React - 15 pts
-Applied Tailwind CSS - 15 points
+Applied Vite - 3 pts
+Applied React - 6 pts
+Applied Tailwind CSS - 2 points
+Applied Vercel 
 
 Links to github line number(s) for research topics described above (one link per line)
 ---
-The whole /client folder is React and Tailwind css based
+The whole /client folder is React + Tailwind css + Vite based
 
 Optional project notes 
 --- 
