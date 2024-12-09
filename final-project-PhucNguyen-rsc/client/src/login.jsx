@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import './index.css';
 import './Login.css';
 import {REACT_APP_API_URL, BACKEND_URL} from './config.mjs';
+import MyContext from './user.jsx';
+import { Outlet } from 'react-router-dom';
 
 const LoginForm = () => {
-  console.log("backend url: ", BACKEND_URL);
+  const { user, setUser } = useContext(MyContext);
+
   const location = useLocation();
   let [message, setMessage] = useState(null);
 
@@ -33,10 +37,12 @@ const LoginForm = () => {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await response.json();
 
       if (!data.errMessage) { //successful
-        navigate('/courses', { state: { name: data.username, courses: data.courses}});
+        setUser(formData.username);
+        navigate('/courses', { state: { name: formData.username}});
       }
       else {
         navigate('/', { state: { message: data.errMessage}});
@@ -78,6 +84,7 @@ const LoginForm = () => {
 const RegisterForm = () => {
   const location = useLocation();
   let [message, setMessage] = useState(null);
+  const { user, setUser } = useContext(MyContext);
 
   useEffect(() => {
     if (location.state?.message) {
@@ -110,7 +117,8 @@ const RegisterForm = () => {
       const data = await response.json();
 
       if (!data.errMessage) { //successful
-        navigate('/courses', { state: { name: data.username, courses: data.courses}});
+        setUser(formData.username);
+        navigate('/courses', { state: { name: formData.username}});
       }
       else {
         navigate('/register', { state: { message: data.errMessage}});
@@ -159,4 +167,29 @@ const RegisterForm = () => {
   );
 };
 
-export {LoginForm, RegisterForm};
+const NotAccessForm = () => {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="text-center p-8 bg-white rounded-lg shadow-md">
+        <p className="text-2xl text-gray-700 mb-6">
+          404 - You have to log in / sign up first to access more pages
+        </p>
+        <button 
+          onClick={() => window.location.href = '/'} 
+          className="bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600 transition-colors"
+        >
+          Back to log in
+        </button>
+      </div>
+    </div>
+  )
+}
+
+const ProtectedRoute = ({ user }) => {
+  if (user === null) {
+    return <NotAccessForm />;
+  }
+  return <Outlet />;
+};
+
+export {LoginForm, RegisterForm, NotAccessForm, ProtectedRoute};
